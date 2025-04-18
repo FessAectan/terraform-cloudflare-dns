@@ -19,11 +19,11 @@ locals {
         proxied   = lookup(record, "proxied", false)
         priority  = lookup(record, "priority", null)
         comment   = coalesce(record.comment, "Managed by terraform" )
+        name_content_hash = md5("${record.name}-${record.content}")
       }
     ]
   ])
 }
-
 
 resource "cloudflare_zone" "zones" {
   for_each = var.zones
@@ -37,7 +37,7 @@ resource "cloudflare_zone" "zones" {
 resource "cloudflare_dns_record" "records" {
   for_each = {
     for idx, rec in local.all_records :
-    "${rec.name}" => rec
+    "${rec.zone_name}-${rec.name}-${rec.type}-${rec.name_content_hash}" => rec
   }
 
   zone_id = cloudflare_zone.zones[each.value.zone_name].id
