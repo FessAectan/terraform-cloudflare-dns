@@ -3,7 +3,7 @@
 ## Example usage
 ```hcl
 module "cloudflare_dns" {
-  source = "git@github.com:FessAectan/terraform-cloudflare-dns.git"
+  source = "github.com/FessAectan/terraform-cloudflare-dns.git?ref=v0.1.0"
   account_id = var.cloudflare_account_id
 
   zones = {
