@@ -1,9 +1,9 @@
-# terraform module for managing DNS zones and their records on CloudFlare
+# terraform module for managing DNS zones and their records on Cloudflare
 
 ## Example usage
 ```hcl
 module "cloudflare_dns" {
-  source = "github.com/FessAectan/terraform-cloudflare-dns.git?ref=v0.1.0"
+  source     = "github.com/FessAectan/terraform-cloudflare-dns.git?ref=v0.2.0"
   account_id = var.cloudflare_account_id
 
   zones = {
@@ -11,11 +11,11 @@ module "cloudflare_dns" {
       zone_type = "full"
       records = [
         {
-          name  = "example.com"
+          name    = "example.com"
           content = "192.168.1.2"
         },
         {
-          name  = "*.example.com"
+          name    = "*.example.com"
           content = "192.168.1.3"
         },
         {
@@ -23,6 +23,15 @@ module "cloudflare_dns" {
           record_type = "CNAME"
           value       = "external.something.com"
           proxied     = true
+        },
+        {
+          name = "_sip._tcp.example.com"
+          type = "SRV"
+          data = {
+            priority = 10
+            weight   = 10
+            port     = 5060
+          }
         }
       ]
     }
