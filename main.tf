@@ -3,6 +3,7 @@ locals {
     for zone_name, zone in var.zones : [
       for record in zone.records : {
         zone_name         = zone_name
+        slug              = record.slug
         name              = record.name
         content           = record.content
         type              = record.type
@@ -31,7 +32,7 @@ resource "cloudflare_zone" "zones" {
 resource "cloudflare_dns_record" "records" {
   for_each = {
     for rec in local.all_records :
-    "${rec.zone_name}-${rec.name}-${rec.type}-${rec.name_content_hash}" => rec
+    "${rec.zone_name}-${rec.name}-${rec.type}-${coalesce(rec.slug, rec.name_content_hash)}" => rec
   }
 
   zone_id  = cloudflare_zone.zones[each.value.zone_name].id

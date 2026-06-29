@@ -13,6 +13,7 @@ variable "zones" {
   type = map(object({
     zone_type = string
     records = list(object({
+      slug     = optional(string)
       name     = string
       content  = string
       type     = optional(string, "A")
