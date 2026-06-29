@@ -19,10 +19,10 @@ module "cloudflare_dns" {
           content = "192.168.1.3"
         },
         {
-          name        = "voip"
-          record_type = "CNAME"
-          value       = "external.something.com"
-          proxied     = true
+          name    = "voip"
+          type    = "CNAME"
+          content = "external.something.com"
+          proxied = true
         }
       ]
     }
